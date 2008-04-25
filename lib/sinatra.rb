@@ -217,14 +217,14 @@ module Sinatra
             
     def invoke(request)
       return unless File.file?(
-        Sinatra.application.options.public + request.path_info
+        Sinatra.application.options.public + request.path_info.from_param
       )
       Result.new(block, {}, 200)
     end
     
     def block
       Proc.new do
-        send_file Sinatra.application.options.public + request.path_info,
+        send_file Sinatra.application.options.public + request.path_info.from_param,
           :disposition => nil
       end
     end
